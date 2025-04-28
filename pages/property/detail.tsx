@@ -196,7 +196,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		return (
 			<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '1080px' }}>
 				<CircularProgress size={'4rem'} />
-			</Stack>
+			</Stack>  
 		);
 	}
 
