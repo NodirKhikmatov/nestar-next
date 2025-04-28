@@ -35,9 +35,9 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 	/** APOLLO REQUESTS **/
 	const [likeTargetBoardArticle] = useMutation(LIKE_TARGET_BOARD_ARTICLE);
 	const {
-		loading: boardArticlesLoading,
-		data: boardArticlesData,
-		error: boardArticlesError,
+		loading: boardArticleLoading,
+		data: boardArticleData,
+		error: boardArticleError,
 		refetch: boardArticleRefetch,
 	} = useQuery(GET_BOARD_ARTICLES, {
 		fetchPolicy: 'cache-and-network',
