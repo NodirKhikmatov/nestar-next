@@ -1,5 +1,6 @@
+import { Box, Stack, Typography } from '@mui/material';
+
 import React from 'react';
-import { Stack, Typography, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
 const Article = () => {
