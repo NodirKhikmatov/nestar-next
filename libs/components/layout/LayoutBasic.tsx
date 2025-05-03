@@ -1,18 +1,20 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/router';
-import useDeviceDetect from '../../hooks/useDeviceDetect';
-import Head from 'next/head';
-import Top from '../Top';
-import Footer from '../Footer';
-import { Stack } from '@mui/material';
-import { getJwtToken, updateUserInfo } from '../../auth';
-import Chat from '../Chat';
-import { useReactiveVar } from '@apollo/client';
-import { userVar } from '../../../apollo/store';
-import { useTranslation } from 'next-i18next';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+
+import React, { useEffect, useMemo, useState } from 'react';
+import { getJwtToken, updateUserInfo } from '../../auth';
+
+import Chat from '../Chat';
+import Footer from '../Footer';
+import Head from 'next/head';
+import { Stack } from '@mui/material';
+import Top from '../Top';
+import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { useReactiveVar } from '@apollo/client';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { userVar } from '../../../apollo/store';
 
 const withLayoutBasic = (Component: any) => {
 	return (props: any) => {
@@ -141,7 +143,7 @@ const withLayoutBasic = (Component: any) => {
 							<Component {...props} />
 						</Stack>
 
-						{user?._id && <Chat />}
+						<Chat />
 
 						<Stack id={'footer'}>
 							<Footer />

@@ -1,25 +1,26 @@
-import { styled, alpha, Theme } from '@mui/material/styles';
-import Badge from '@mui/material/Badge';
-import MuiAppBar from '@mui/material/AppBar';
-import TextField from '@mui/material/TextField';
-import MuiDrawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
 import Switch, { SwitchProps } from '@mui/material/Switch';
+import { Theme, alpha, styled } from '@mui/material/styles';
+
+import Badge from '@mui/material/Badge';
+import Button from '@mui/material/Button';
+import MuiAppBar from '@mui/material/AppBar';
+import MuiDrawer from '@mui/material/Drawer';
+import TextField from '@mui/material/TextField';
 
 export const RippleBadge = styled(Badge)(({ theme }) => ({
 	'& .MuiBadge-badge': {
-		backgroundColor: '#44b700',
-		color: '#44b700',
-		boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+		backgroundColor: '#b4dcff8f',
+		color: '#2c40bdd6',
+		boxShadow: `0`,
 		'&::after': {
 			position: 'absolute',
-			top: '-1px',
-			left: '-1px',
+			top: '0px',
+			left: '0px',
 			width: '100%',
 			height: '100%',
 			borderRadius: '50%',
 			animation: 'ripple 1.2s infinite ease-in-out',
-			border: '1px solid currentColor',
+			border: '2px solid #32c2c1',
 			content: '""',
 		},
 	},

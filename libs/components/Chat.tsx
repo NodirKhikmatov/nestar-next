@@ -1,11 +1,13 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Avatar, Box, Stack } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+
 import Badge from '@mui/material/Badge';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
-import { useRouter } from 'next/router';
+import { RippleBadge } from '../../scss/MaterialTheme/styled';
 import ScrollableFeed from 'react-scrollable-feed';
+import SendIcon from '@mui/icons-material/Send';
+import { useRouter } from 'next/router';
 
 const NewMessage = (type: any) => {
 	if (type === 'right') {
@@ -34,7 +36,7 @@ const NewMessage = (type: any) => {
 const Chat = () => {
 	const chatContentRef = useRef<HTMLDivElement>(null);
 	const [messagesList, setMessagesList] = useState([]);
-	const [onlineUsers, setOnlineUsers] = useState<number>(0);
+	const [onlineUsers, setOnlineUsers] = useState<number>(4);
 	const textInput = useRef(null);
 	const [message, setMessage] = useState<string>('');
 	const [open, setOpen] = useState(false);
@@ -88,6 +90,7 @@ const Chat = () => {
 			<Stack className={`chat-frame ${open ? 'open' : ''}`}>
 				<Box className={'chat-top'} component={'div'}>
 					<div style={{ fontFamily: 'Nunito' }}>Online Chat</div>
+					<RippleBadge style={{margin: '-18px 0 0 21px'}} badgeContent={onlineUsers} />
 					<Badge
 						style={{
 							margin: '-30px 0 0 20px',
@@ -101,7 +104,7 @@ const Chat = () => {
 					<ScrollableFeed>
 						<Stack className={'chat-main'}>
 							<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component={'div'}>
-								<div className={'msg-left'}>Welcome to Live chat!</div>
+								<div className={'welcome'}>Welcome to Live chat!</div>
 							</Box>
 							{messagesList}
 							<>
@@ -113,7 +116,7 @@ const Chat = () => {
 									justifyContent={'flex-end'}
 									sx={{ m: '10px 0px' }}
 								>
-									<div className={'msg-right'}>hi</div>
+									<div className={'msg-left'}>hi</div>
 								</Box>
 								<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component={'div'}>
 									<Avatar alt={'jonik'} src={'/img/profile/defaultUser.svg'} />

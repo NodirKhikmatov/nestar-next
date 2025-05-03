@@ -1,6 +1,7 @@
 import { Box, InputAdornment, List, ListItem, Stack } from '@mui/material';
 import { MemberStatus, MemberType } from '../../../libs/enums/member.enum';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
 
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import Divider from '@mui/material/Divider';
@@ -13,14 +14,13 @@ import MenuItem from '@mui/material/MenuItem';
 import type { NextPage } from 'next';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Select from '@mui/material/Select';
+import { T } from '../../../libs/types/common';
 import { TabContext } from '@mui/lab';
 import TablePagination from '@mui/material/TablePagination';
 import Typography from '@mui/material/Typography';
 import { UPDATE_MEMBER_BY_ADMIN } from '../../../apollo/admin/mutation';
 import { sweetErrorHandling } from '../../../libs/sweetAlert';
-import { useMutation, useQuery } from '@apollo/client';
 import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
-import { T } from '../../../libs/types/common';
 
 const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
@@ -47,7 +47,7 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 			variables: { input: membersInquiry },
 			notifyOnNetworkStatusChange: true,
 			onCompleted: (data: T) => {
-				setMembers(data?getAllMembersByAdmin?.list)
+				setMembers(data?.getAllMembersByAdmin?.list)
 				setMembersTotal(data?.getAllMembersByAdmin?.metaCounter[0]?.total ?? 0)
 			},
 		});
