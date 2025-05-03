@@ -1,19 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import type { NextPage } from 'next';
-import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
-import { Box, Stack, MenuItem } from '@mui/material';
+import { BoardArticleCategory, BoardArticleStatus } from '../../../libs/enums/board-article.enum';
+import { Box, MenuItem, Stack } from '@mui/material';
 import { List, ListItem } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import React, { useEffect, useState } from 'react';
+import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
+import { useMutation, useQuery } from '@apollo/client';
+
+import { AllBoardArticlesInquiry } from '../../../libs/types/board-article/board-article.input';
+import { BoardArticle } from '../../../libs/types/board-article/board-article';
+import { BoardArticleUpdate } from '../../../libs/types/board-article/board-article.update';
+import CommunityArticleList from '../../../libs/components/admin/community/CommunityArticleList';
 import Divider from '@mui/material/Divider';
+import { GET_ALL_BOARD_ARTICLES_BY_ADMIN } from '../../../apollo/admin/query';
+import type { NextPage } from 'next';
 import Select from '@mui/material/Select';
 import { TabContext } from '@mui/lab';
 import TablePagination from '@mui/material/TablePagination';
-import CommunityArticleList from '../../../libs/components/admin/community/CommunityArticleList';
-import { AllBoardArticlesInquiry } from '../../../libs/types/board-article/board-article.input';
-import { BoardArticle } from '../../../libs/types/board-article/board-article';
-import { BoardArticleCategory, BoardArticleStatus } from '../../../libs/enums/board-article.enum';
-import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
-import { BoardArticleUpdate } from '../../../libs/types/board-article/board-article.update';
+import Typography from '@mui/material/Typography';
+import { UPDATE_BOARD_ARTICLE_BY_ADMIN } from '../../../apollo/admin/mutation';
+import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
 
 const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<any>([]);
@@ -27,18 +31,37 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 
+	const [updateBoardArticleByAdmin] = useMutation(UPDATE_BOARD_ARTICLE_BY_ADMIN)
+	const [removeBoardArticleByAdmin] = useMutation(UPDATE_BOARD_ARTICLE_BY_ADMIN)
+
+	const {
+		loading: getAllBoardArticlesByAdminLoading,
+		data: getAllBoardArticlesByAdminData,
+		error:getAllBoardArticlesByAdminError,
+		refetch: getAllBoardArticlesByAdminRefetch,
+	} = useQuery(GET_ALL_BOARD_ARTICLES_BY_ADMIN, {
+		fetchPolicy: 'network-only',
+		variables: { input: communityInquiry },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setArticles(data?.getAllBoardArticlesByAdmin?.list);
+			setArticleTotal(data?.getAllBoardArticlesByAdmin?.metaCounter[0]?.total);
+		},
+	});
 	/** LIFECYCLES **/
 	useEffect(() => {}, [communityInquiry]);
 
 	/** HANDLERS **/
 	const changePageHandler = async (event: unknown, newPage: number) => {
 		communityInquiry.page = newPage + 1;
+		await getAllBoardArticlesByAdminRefetch({input:communityInquiry})
 		setCommunityInquiry({ ...communityInquiry });
 	};
 
 	const changeRowsPerPageHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		communityInquiry.limit = parseInt(event.target.value, 10);
 		communityInquiry.page = 1;
+		await getAllBoardArticlesByAdminRefetch({input:communityInquiry})
 		setCommunityInquiry({ ...communityInquiry });
 	};
 
@@ -96,9 +119,15 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 
 	const updateArticleHandler = async (updateData: BoardArticleUpdate) => {
 		try {
-			console.log('+updateData: ', updateData);
+			await updateBoardArticleByAdmin({
+				variables:{
+					input:updateData
+				}
+			})
 
 			menuIconCloseHandler();
+			await getAllBoardArticlesByAdminRefetch({input:communityInquiry})
+
 		} catch (err: any) {
 			menuIconCloseHandler();
 			sweetErrorHandling(err).then();
@@ -108,6 +137,13 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 	const removeArticleHandler = async (id: string) => {
 		try {
 			if (await sweetConfirmAlert('are you sure to remove?')) {
+				await removeBoardArticleByAdmin({
+					variables:{
+						input:id
+					}
+				})
+			await getAllBoardArticlesByAdminRefetch({input:communityInquiry})
+
 			}
 		} catch (err: any) {
 			sweetErrorHandling(err).then();

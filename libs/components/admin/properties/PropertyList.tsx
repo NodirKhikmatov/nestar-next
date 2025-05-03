@@ -1,24 +1,25 @@
-import React from 'react';
-import Link from 'next/link';
 import {
-	TableCell,
-	TableHead,
-	TableBody,
-	TableRow,
-	Table,
-	TableContainer,
 	Button,
-	Menu,
 	Fade,
+	Menu,
 	MenuItem,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
 } from '@mui/material';
+
 import Avatar from '@mui/material/Avatar';
-import { Stack } from '@mui/material';
-import { Property } from '../../../types/property/property';
-import { REACT_APP_API_URL } from '../../../config';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Typography from '@mui/material/Typography';
+import Link from 'next/link';
+import { Property } from '../../../types/property/property';
 import { PropertyStatus } from '../../../enums/property.enum';
+import { REACT_APP_API_URL } from '../../../config';
+import React from 'react';
+import { Stack } from '@mui/material';
+import Typography from '@mui/material/Typography';
 
 interface Data {
 	id: string;
@@ -155,6 +156,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 									<TableRow hover key={property?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 										<TableCell align="left">{property._id}</TableCell>
 										<TableCell align="left" className={'name'}>
+										{property.propertyStatus === PropertyStatus.ACTIVE ? (
 											<Stack direction={'row'}>
 												<Link href={`/property/detail?id=${property?._id}`}>
 													<div>
@@ -165,6 +167,15 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 													<div>{property.propertyTitle}</div>
 												</Link>
 											</Stack>
+										):(
+											<Stack direction={'row'}>
+												<div>
+													<Avatar alt="Remy Sharp" src={propertyImage} sx={{ ml: '2px', mr: '10px' }} />
+												</div>
+												<div style={{marginTop:'10px'}}>{property.propertyTitle}</div>
+										</Stack>
+										)}
+											
 										</TableCell>
 										<TableCell align="center">{property.propertyPrice}</TableCell>
 										<TableCell align="center">{property.memberData?.memberNick}</TableCell>

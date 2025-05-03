@@ -1,5 +1,3 @@
-import React from 'react';
-import Link from 'next/link';
 import {
 	Box,
 	Button,
@@ -14,16 +12,19 @@ import {
 	TableRow,
 	Tooltip,
 } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
+
 import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
-import OpenInBrowserRoundedIcon from '@mui/icons-material/OpenInBrowserRounded';
-import Moment from 'react-moment';
 import { BoardArticle } from '../../../types/board-article/board-article';
-import { REACT_APP_API_URL } from '../../../config';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Typography from '@mui/material/Typography';
 import { BoardArticleStatus } from '../../../enums/board-article.enum';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+import Link from 'next/link';
+import Moment from 'react-moment';
+import OpenInBrowserRoundedIcon from '@mui/icons-material/OpenInBrowserRounded';
+import { REACT_APP_API_URL } from '../../../config';
+import React from 'react';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 interface Data {
 	category: string;
@@ -154,7 +155,8 @@ const CommunityArticleList = (props: CommunityArticleListProps) => {
 									<TableCell align="left">
 										<Box component={'div'}>
 											{article.articleTitle}
-											<Link
+											{article.articleStatus === BoardArticleStatus.active && (
+												<Link
 												href={`/community/detail?articleCategory=${article.articleCategory}&id=${article._id}`}
 												className={'img_box'}
 											>
@@ -164,6 +166,8 @@ const CommunityArticleList = (props: CommunityArticleListProps) => {
 													</Tooltip>
 												</IconButton>
 											</Link>
+											)}
+											
 										</Box>
 									</TableCell>
 									<TableCell align="left">{article.articleCategory}</TableCell>
@@ -187,7 +191,7 @@ const CommunityArticleList = (props: CommunityArticleListProps) => {
 										<Moment format={'DD.MM.YY HH:mm'}>{article?.createdAt}</Moment>
 									</TableCell>
 									<TableCell align="center">
-										{article.articleStatus === 'DELETE' ? (
+										{article.articleStatus === BoardArticleStatus.DELETE ? (
 											<Button
 												variant="outlined"
 												sx={{ p: '3px', border: 'none', ':hover': { border: '1px solid #000000' } }}
