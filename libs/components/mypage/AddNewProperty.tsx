@@ -5,7 +5,6 @@ import { REACT_APP_API_URL, propertySquare } from '../../config';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 
-import { GET_PROPERTY } from '../../../apollo/user/query';
 import { PropertyInput } from '../../types/property/property.input';
 import axios from 'axios';
 import { getJwtToken } from '../../auth';
@@ -13,6 +12,7 @@ import { sweetMixinErrorAlert } from '../../sweetAlert';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { useRouter } from 'next/router';
 import { userVar } from '../../../apollo/store';
+import { GET_PROPERTY } from '../../../apollo/user/query';
 
 const AddProperty = ({ initialValues, ...props }: any) => {
 	const device = useDeviceDetect();
