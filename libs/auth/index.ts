@@ -1,9 +1,10 @@
+import { LOGIN, SIGN_UP } from '../../apollo/user/mutation';
+
+import { CustomJwtPayload } from '../types/customJwtPayload';
 import decodeJWT from 'jwt-decode';
 import { initializeApollo } from '../../apollo/client';
-import { userVar } from '../../apollo/store';
-import { CustomJwtPayload } from '../types/customJwtPayload';
 import { sweetMixinErrorAlert } from '../sweetAlert';
-import { LOGIN, SIGN_UP } from '../../apollo/user/mutation';
+import { userVar } from '../../apollo/store';
 
 export function getJwtToken(): any {
 	if (typeof window !== 'undefined') {
@@ -26,7 +27,7 @@ export const logIn = async (nick: string, password: string): Promise<void> => {
 	} catch (err) {
 		console.warn('login err', err);
 		logOut();
-		throw new Error('Login Err');
+		// throw new Error('Login Err');
 	}
 };
 
@@ -75,7 +76,7 @@ export const signUp = async (nick: string, password: string, phone: string, type
 	} catch (err) {
 		console.warn('login err', err);
 		logOut();
-		throw new Error('Login Err');
+		// throw new Error('Login Err');
 	}
 };
 
