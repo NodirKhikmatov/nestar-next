@@ -7,6 +7,7 @@ import createUploadLink from 'apollo-upload-client/public/createUploadLink.js';
 import { getJwtToken } from '../libs/auth';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { onError } from '@apollo/client/link/error';
+import { socketVar } from './store';
 import { sweetErrorAlert } from '../libs/sweetAlert';
 import { useMemo } from 'react';
 
@@ -36,7 +37,8 @@ class LoggingWebSocket {
 	private socket: WebSocket;
 
 	constructor(url:string){
-		this.socket = new WebSocket(url)
+		this.socket = new WebSocket(`${url}?token=${getJwtToken()}`)
+socketVar(this.socket)
 
 		this.socket.onopen = () => {
 			console.log("websocket connection");

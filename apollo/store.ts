@@ -1,6 +1,6 @@
+import { CustomJwtPayload } from '../libs/types/customJwtPayload';
 import { makeVar } from '@apollo/client';
 
-import { CustomJwtPayload } from '../libs/types/customJwtPayload';
 export const themeVar = makeVar({});
 
 export const userVar = makeVar<CustomJwtPayload>({
@@ -23,3 +23,6 @@ export const userVar = makeVar<CustomJwtPayload>({
 	memberWarnings: 0,
 	memberBlocks: 0,
 });
+
+// @ts-ignore
+export const socketVar = makeVar<WebSocket>()
